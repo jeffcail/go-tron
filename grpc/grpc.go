@@ -28,6 +28,19 @@ func (c *Client) GetBowBlock() (*api.BlockExtention, error) {
 	return block, nil
 }
 
+// GetBlockByNum
+func (c *Client) GetBlockByNum(number int64) ([]*api.TransactionExtention, error) {
+	err := c.keepConnect()
+	if err != nil {
+		return nil, err
+	}
+	block, err := c.GRPC.GetBlockByNum(number)
+	if err != nil {
+		return nil, err
+	}
+	return block.Transactions, nil
+}
+
 type Client struct {
 	node string
 	GRPC *client.GrpcClient

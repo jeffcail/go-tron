@@ -19,3 +19,18 @@ func TestGetBowBlock(t *testing.T) {
 	}
 	fmt.Println(block.GetBlockHeader().RawData.Number)
 }
+
+func TestClient_GetBlockByNum(t *testing.T) {
+	number := 46798578
+	c, err := NewClient(node)
+	if err != nil {
+		log.Fatal(err)
+	}
+	transactions, err := c.GetBlockByNum(int64(number))
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(transactions[0].Transaction.RawData.Contract[0].Type)
+	fmt.Println(len(transactions))
+	fmt.Println(transactions[0])
+}
