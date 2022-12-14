@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"math/big"
 	"strings"
 	"time"
 
@@ -39,6 +40,58 @@ func (c *Client) GetBlockByNum(number int64) ([]*api.TransactionExtention, error
 		return nil, err
 	}
 	return block.Transactions, nil
+}
+
+// GetTrxBalance
+func (c *Client) GetTrxBalance(address string) (int64, error) {
+	err := c.keepConnect()
+	if err != nil {
+		return int64(0), err
+	}
+	account, err := c.GRPC.GetAccount(address)
+	if err != nil {
+		return int64(0), err
+	}
+	return account.GetBalance(), nil
+}
+
+// GetTrc20Symbol
+func (c *Client) GetTrc20Symbol(contractAddress string) (string, error) {
+	err := c.keepConnect()
+	if err != nil {
+		return "", err
+	}
+	symbol, err := c.GRPC.TRC20GetSymbol(contractAddress)
+	if err != nil {
+		return "", err
+	}
+	return symbol, nil
+}
+
+// GetTrc20Name
+func (c *Client) GetTrc20Name(contractAddress string) (string, error) {
+	err := c.keepConnect()
+	if err != nil {
+		return "", err
+	}
+	name, err := c.GRPC.TRC20GetName(contractAddress)
+	if err != nil {
+		return "", err
+	}
+	return name, nil
+}
+
+// GetTrc20Decimal
+func (c *Client) GetTrc20Decimal(contractAddress string) (*big.Int, error) {
+	err := c.keepConnect()
+	if err != nil {
+		return big.NewInt(0), err
+	}
+	decimal, err := c.GRPC.TRC20GetDecimals(contractAddress)
+	if err != nil {
+		return big.NewInt(0), err
+	}
+	return decimal, nil
 }
 
 type Client struct {
