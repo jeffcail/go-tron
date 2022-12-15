@@ -94,6 +94,15 @@ func (c *Client) GetTrc20Decimal(contractAddress string) (*big.Int, error) {
 	return decimal, nil
 }
 
+// GetTrc10Token
+func (c *Client) GetTrc10Token(assetID string) (string, error) {
+	asset, err := c.GRPC.GetAssetIssueByID(assetID)
+	if err != nil {
+		return "", err
+	}
+	return string(asset.Abbr), nil
+}
+
 type Client struct {
 	node string
 	GRPC *client.GrpcClient

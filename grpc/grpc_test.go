@@ -86,3 +86,16 @@ func TestClient_GetTrc20Decimal(t *testing.T) {
 	}
 	fmt.Println(decimal)
 }
+
+func TestClient_GetTrc10Token(t *testing.T) {
+	c, err := NewClient(node)
+	if err != nil {
+		log.Fatal(err)
+	}
+	assetID := "1000001"
+	trc10Token, err := c.GetTrc10Token(assetID)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(trc10Token)
+}
