@@ -122,7 +122,7 @@ func TestClient_TransferTrx(t *testing.T) {
 		t.Fatal(err)
 	}
 	// 1 SUN
-	pri := "8dc8aa05ec4ea3dff6b65a20025fb641095dfe58cab95b048cc43a201ab801b8"
+	pri := ""
 	from := "TDMDMXnFpkqrBEVCjEHiwRHZ6UQroe2j74"
 	to := "TCyps3Pber1ghKYgw5vq6KLxFVPJk9EvWC"
 	amount := 1
@@ -139,7 +139,7 @@ func TestClient_TransferTrc20(t *testing.T) {
 		t.Fatal(err)
 	}
 	// USDT
-	pri := "8dc8aa05ec4ea3dff6b65a20025fb641095dfe58cab95b048cc43a201ab801b8"
+	pri := ""
 	from := "TDMDMXnFpkqrBEVCjEHiwRHZ6UQroe2j74"
 	to := "TCyps3Pber1ghKYgw5vq6KLxFVPJk9EvWC"
 	contractAddress := "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
