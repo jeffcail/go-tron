@@ -1,5 +1,21 @@
 package http
 
+// GetNowBlockOut
+type GetNowBlockOut struct {
+	BlockID     string `json:"blockID"`
+	BlockHeader struct {
+		RawData struct {
+			Number         int64  `json:"number"`
+			TxTrieRoot     string `json:"txTrieRoot"`
+			WitnessAddress string `json:"witness_address"`
+			ParentHash     string `json:"parentHash"`
+			Version        int64  `json:"version"`
+			Timestamp      int64  `json:"timestamp"`
+		} `json:"raw_data"`
+		WitnessSignature string `json:"witness_signature"`
+	} `json:"block_header"`
+}
+
 // GetAssetIssueByID TRC10
 type GetAssetIssueByID struct {
 	OwnerAddress string `json:"owner_address"`
