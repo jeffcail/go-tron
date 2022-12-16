@@ -85,9 +85,9 @@ func Post(url string, header map[string]string, params map[string]interface{}) (
 			req.Header.Add(k, v)
 		}
 	}
-	r, err := client.Do(req)
-	if err != nil {
-		return nil, err
+	r, er := client.Do(req)
+	if er != nil {
+		return nil, er
 	}
 	defer r.Body.Close()
 	if r.StatusCode != 200 {
