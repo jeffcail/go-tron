@@ -4,14 +4,15 @@ go 1.17
 
 require (
 	github.com/btcsuite/btcd v0.22.0-beta
+	github.com/ethereum/go-ethereum v1.10.11
 	github.com/fbsobreira/gotron-sdk v0.0.0-20221101181131-c4daceb828f0
+	github.com/golang/protobuf v1.4.3
+	google.golang.org/grpc v1.37.0
 )
 
 require (
 	github.com/deckarep/golang-set v1.7.1 // indirect
-	github.com/ethereum/go-ethereum v1.10.11 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
-	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/google/uuid v1.1.5 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/pborman/uuid v1.2.1 // indirect
@@ -27,6 +28,5 @@ require (
 	golang.org/x/sys v0.0.0-20211102061401-a2f17f7b995c // indirect
 	golang.org/x/text v0.3.6 // indirect
 	google.golang.org/genproto v0.0.0-20200825200019-8632dd797987 // indirect
-	google.golang.org/grpc v1.37.0 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
 )

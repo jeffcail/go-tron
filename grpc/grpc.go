@@ -10,6 +10,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/fbsobreira/gotron-sdk/pkg/address"
+
 	"github.com/fbsobreira/gotron-sdk/pkg/proto/core"
 
 	"github.com/jeffcail/go-tron/common/sign"
@@ -61,6 +63,24 @@ func (c *Client) GetTrxBalance(address string) (int64, error) {
 		return int64(0), err
 	}
 	return account.GetBalance(), nil
+}
+
+// GetTrc10Balance
+func (c *Client) GetTrc10Balance(address, assetId string) (int64, error) {
+	err := c.keepConnect()
+	if err != nil {
+		return int64(0), err
+	}
+	account, err := c.GRPC.GetAccount(address)
+	if err != nil {
+		return int64(0), err
+	}
+	for k, v := range account.AssetV2 {
+		if k == assetId {
+			return v, nil
+		}
+	}
+	return int64(0), fmt.Errorf("%s do not find this assetId=%s amount", address, assetId)
 }
 
 // GetTrc20Symbol
@@ -168,6 +188,39 @@ func (c *Client) TransferTrx(from, to, pri string, amount int64) error {
 	}
 
 	err = c.board(signTx)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// TransferTrc10
+func (c *Client) TransferTrc10(from, to, assetId string, amount int64) error {
+	var (
+		trc10Tx *api.TransactionExtention
+		err     error
+	)
+	err = c.keepConnect()
+	if err != nil {
+		return err
+	}
+	f, err := address.Base58ToAddress(from)
+	if err != nil {
+		return errors.New("from address is not equal")
+	}
+	t, err := address.Base58ToAddress(to)
+	if err != nil {
+		return errors.New("to address is not equal")
+	}
+	trc10Tx, err = c.GRPC.TransferAsset(f.String(), t.String(), assetId, amount)
+	signTrc10Tx, err := sign.SignTransaction(trc10Tx.Transaction, "")
+	if err != nil {
+		return err
+	}
+	if signTrc10Tx == nil {
+		return errors.New("after sign signTrc10Tx is nil")
+	}
+	err = c.board(signTrc10Tx)
 	if err != nil {
 		return err
 	}

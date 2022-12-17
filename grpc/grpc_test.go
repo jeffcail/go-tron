@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"testing"
+
+	"github.com/fbsobreira/gotron-sdk/pkg/address"
 )
 
 var node = "52.53.189.99:50051"
@@ -46,6 +48,20 @@ func TestClient_GetTrxBalance(t *testing.T) {
 		log.Fatal(err)
 	}
 	fmt.Println(balance)
+}
+
+func TestClient_GetTrc10Balance(t *testing.T) {
+	c, err := NewClient(node)
+	if err != nil {
+		log.Fatal(err)
+	}
+	address := "TK1UXQBkvAwBypz1bTWcuLHFaB8JmTjoUw"
+	assetId := "1002000"
+	amount, err := c.GetTrc10Balance(address, assetId)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(amount)
 }
 
 func TestClient_GetTrc20Symbol(t *testing.T) {
@@ -131,6 +147,21 @@ func TestClient_TransferTrx(t *testing.T) {
 		t.Fatal(err)
 	}
 	fmt.Println("TRX 转账成功")
+}
+
+func TestClient_TransferTrc10(t *testing.T) {
+	c, err := NewClient(node)
+	if err != nil {
+		t.Fatal(err)
+	}
+	from, _ := address.Base58ToAddress("TFXf56UG1bhWkZq7WQEf7XW5hZXku17E8M")
+	to, _ := address.Base58ToAddress("TL4ebGiBbBPjduKaNEoPytVyzEuPEsFYz9")
+	assetId := "1000016"
+	err = c.TransferTrc10(from.String(), to.String(), assetId, int64(1000))
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println("TRC10 转账成功")
 }
 
 func TestClient_TransferTrc20(t *testing.T) {
