@@ -12,9 +12,12 @@ import (
 )
 
 var (
-	getNowBlock   = "wallet/getnowblock"
-	getBlockByNum = "wallet/getblockbynum"
-	getTrxBalance = "v1/accounts/"
+	getNowBlock     = "wallet/getnowblock"
+	getBlockByNum   = "wallet/getblockbynum"
+	getTrxBalance   = "v1/accounts/"
+	getTrc10Token   = "wallet/getassetissuebyid"
+	getTrc10Balance = "wallet/getaccount"
+	getTrc20Symbol  = "wallet/getcontract"
 )
 
 // GetNowBlock
@@ -69,9 +72,54 @@ func GetTrxBalance(address string) (int64, error) {
 	return o.Data[0].Balance, nil
 }
 
+// GetTrc10Balance
+func GetTrc10Balance(address, assetId string) (int64, error) {
+	url := fmt.Sprintf("%s%s", _const.TronHttpApi, getTrc10Balance)
+	h := buildHeader()
+	p := make(map[string]interface{})
+	p["address"] = address
+	bytes, err := req.Post(url, h, p)
+	if err != nil {
+		return 0, err
+	}
+	o := &GetTrc10BalanceOut{}
+	err = json.Unmarshal(bytes, o)
+	if err != nil {
+		return 0, err
+	}
+
+	for _, v := range o.AssetV2 {
+		if v.Key == assetId {
+			return v.Value, nil
+		}
+	}
+
+	return 0, fmt.Errorf("%s do not find this assetId=%s amount", address, assetId)
+}
+
+// GetTrc20Symbol
+func GetTrc20Symbol(contractAddress string) (string, error) {
+	url := fmt.Sprintf("%s%s", _const.TronHttpApi, getTrc20Symbol)
+	h := buildHeader()
+	p := make(map[string]interface{})
+	p["value"] = contractAddress
+	bytes, err := req.Post(url, h, p)
+	if err != nil {
+		return "", err
+	}
+	o := &GetTrc20SymbolOut{}
+	err = json.Unmarshal(bytes, o)
+	if err != nil {
+		return "", err
+	}
+	fmt.Println(o.Name)
+	fmt.Println(o.Bytecode)
+	return "", err
+}
+
 // GetTrc10Token
 func GetTrc10Token(assetID string) (string, error) {
-	url := fmt.Sprintf("%s%s", _const.HttpApi, "wallet/getassetissuebyid")
+	url := fmt.Sprintf("%s%s", _const.HttpApi, getTrc10Token)
 	h := buildHeader()
 	p := make(map[string]interface{})
 	p["value"] = assetID

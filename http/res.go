@@ -57,6 +57,7 @@ type GetBlockByNumOut struct {
 	}
 }
 
+// GetTrxBalanceOut
 type GetTrxBalanceOut struct {
 	Data []struct {
 		LatestOprationTime int64 `json:"latest_opration_time"`
@@ -95,6 +96,61 @@ type GetTrxBalanceOut struct {
 		At       int64 `json:"at"`
 		PageSize int   `json:"page_size"`
 	} `json:"meta"`
+}
+
+// GetTrc10BalanceOut
+type GetTrc10BalanceOut struct {
+	Address string `json:"address"`
+	Balance int    `json:"balance"`
+	Frozen  []struct {
+		FrozenBalance int64 `json:"frozen_balance"`
+		ExpireTime    int64 `json:"expire_time"`
+	} `json:"frozen"`
+	CreateTime            int64 `json:"create_time"`
+	LatestOprationTime    int64 `json:"latest_opration_time"`
+	LatestConsumeTime     int64 `json:"latest_consume_time"`
+	LatestConsumeFreeTime int64 `json:"latest_consume_free_time"`
+	AccountResource       struct {
+		FrozenBalanceForEnergy struct {
+			FrozenBalance int64 `json:"frozen_balance"`
+			ExpireTime    int64 `json:"expire_time"`
+		} `json:"frozen_balance_for_energy"`
+		LatestConsumeTimeForEnergy int64 `json:"latest_consume_time_for_energy"`
+	} `json:"account_resource"`
+	AssetV2 []struct {
+		Key   string `json:"key"`
+		Value int64  `json:"value"`
+	} `json:"assetV2"`
+	FreeAssetNetUsageV2 []struct {
+		Key   string `json:"key"`
+		Value int64  `json:"value"`
+	} `json:"free_asset_net_usageV2"`
+}
+
+// GetTrc20SymbolOut
+type GetTrc20SymbolOut struct {
+	Bytecode                   string `json:"bytecode"`
+	ConsumeUserResourcePercent int    `json:"consume_user_resource_percent"`
+	Name                       string `json:"name"`
+	OriginAddress              string `json:"origin_address"`
+	Abi                        struct {
+		Entrys []struct {
+			Outputs []struct {
+				Type string `json:"type"`
+			} `json:"outputs,omitempty"`
+			Constant        bool   `json:"constant,omitempty"`
+			Name            string `json:"name,omitempty"`
+			StateMutability string `json:"stateMutability,omitempty"`
+			Type            string `json:"type"`
+			Inputs          []struct {
+				Name string `json:"name"`
+				Type string `json:"type"`
+			} `json:"inputs,omitempty"`
+		} `json:"entrys"`
+	} `json:"abi"`
+	OriginEnergyLimit int    `json:"origin_energy_limit"`
+	ContractAddress   string `json:"contract_address"`
+	CodeHash          string `json:"code_hash"`
 }
 
 // GetAssetIssueByID TRC10
